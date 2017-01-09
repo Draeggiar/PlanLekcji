@@ -1,0 +1,53 @@
+﻿@using Plan_lekcji.Extensions
+@model IEnumerable<Plan_lekcji.DAL.Plan>
+
+@{
+    ViewBag.Title = "Utworzone plany";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nazwa)
+        </th>
+        <th>Akcje</th>
+    </tr>
+    </thead>
+    <tbody data-bind="foreach: plany">
+    <tr>
+        <td data-bind="text: Nazwa"></td>
+        <td>
+            <a data-bind="attr: { href: '@Url.Action("Details")/' + Id }"
+               class="btn btn-info">
+                Details
+            </a>
+            @{
+                /*<a data-bind="attr: { href: '@Url.Action("Edit")/' + Id }"
+                   class="btn btn-primary">Edit</a>
+                <a data-bind="attr: { href: '@Url.Action("Delete")/' + Id }"
+                    class="btn btn-danger">Delete</a>*/
+            }
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        function ViewModel(plany) {
+            var self = this;
+
+            self.plany = plany;
+        };
+
+        var viewModel = new ViewModel(@Html.HtmlConvertToJson(Model));
+        ko.applyBindings(viewModel);
+    </script>
+}

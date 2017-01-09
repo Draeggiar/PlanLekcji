@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PlanLekcjiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Dzien">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DzienTygodnia" Type="nvarchar" MaxLength="200" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Plan">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nazwa" Type="nvarchar" MaxLength="200" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Przedmiot">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Godzina" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Nazwa" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="DzienId" Type="int" Nullable="false" />
+    <Property Name="PlanId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Przedmiot_Dzien">
+    <End Role="Dzien" Type="Self.Dzien" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Przedmiot" Type="Self.Przedmiot" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dzien">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Przedmiot">
+        <PropertyRef Name="DzienId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Przedmiot_Plan">
+    <End Role="Plan" Type="Self.Plan" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Przedmiot" Type="Self.Przedmiot" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Plan">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Przedmiot">
+        <PropertyRef Name="PlanId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PlanLekcjiModelStoreContainer">
+    <EntitySet Name="Dzien" EntityType="Self.Dzien" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Plan" EntityType="Self.Plan" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Przedmiot" EntityType="Self.Przedmiot" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Przedmiot_Dzien" Association="Self.FK_Przedmiot_Dzien">
+      <End Role="Dzien" EntitySet="Dzien" />
+      <End Role="Przedmiot" EntitySet="Przedmiot" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Przedmiot_Plan" Association="Self.FK_Przedmiot_Plan">
+      <End Role="Plan" EntitySet="Plan" />
+      <End Role="Przedmiot" EntitySet="Przedmiot" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

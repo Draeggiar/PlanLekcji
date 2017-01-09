@@ -1,0 +1,1 @@
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Plan_lekcji.MvcApplication" Language="C#" %>

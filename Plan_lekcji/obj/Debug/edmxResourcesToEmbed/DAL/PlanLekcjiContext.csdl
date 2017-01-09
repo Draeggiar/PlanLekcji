@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PlanLekcjiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Dzien">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DzienTygodnia" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Przedmiot" Relationship="Self.FK_Przedmiot_Dzien" FromRole="Dzien" ToRole="Przedmiot" />
+  </EntityType>
+  <EntityType Name="Plan">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nazwa" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Przedmiot" Relationship="Self.FK_Przedmiot_Plan" FromRole="Plan" ToRole="Przedmiot" />
+  </EntityType>
+  <EntityType Name="Przedmiot">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Godzina" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Nazwa" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DzienId" Type="Int32" Nullable="false" />
+    <Property Name="PlanId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Dzien" Relationship="Self.FK_Przedmiot_Dzien" FromRole="Przedmiot" ToRole="Dzien" />
+    <NavigationProperty Name="Plan" Relationship="Self.FK_Przedmiot_Plan" FromRole="Przedmiot" ToRole="Plan" />
+  </EntityType>
+  <Association Name="FK_Przedmiot_Dzien">
+    <End Role="Dzien" Type="Self.Dzien" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Przedmiot" Type="Self.Przedmiot" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dzien">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Przedmiot">
+        <PropertyRef Name="DzienId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Przedmiot_Plan">
+    <End Role="Plan" Type="Self.Plan" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Przedmiot" Type="Self.Przedmiot" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Plan">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Przedmiot">
+        <PropertyRef Name="PlanId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PlanLekcjiEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Dzien" EntityType="Self.Dzien" />
+    <EntitySet Name="Plan" EntityType="Self.Plan" />
+    <EntitySet Name="Przedmiot" EntityType="Self.Przedmiot" />
+    <AssociationSet Name="FK_Przedmiot_Dzien" Association="Self.FK_Przedmiot_Dzien">
+      <End Role="Dzien" EntitySet="Dzien" />
+      <End Role="Przedmiot" EntitySet="Przedmiot" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Przedmiot_Plan" Association="Self.FK_Przedmiot_Plan">
+      <End Role="Plan" EntitySet="Plan" />
+      <End Role="Przedmiot" EntitySet="Przedmiot" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

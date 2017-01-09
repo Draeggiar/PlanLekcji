@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="PlanLekcjiModelStoreContainer" CdmEntityContainer="PlanLekcjiEntities">
+    <EntitySetMapping Name="Dzien">
+      <EntityTypeMapping TypeName="PlanLekcjiModel.Dzien">
+        <MappingFragment StoreEntitySet="Dzien">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DzienTygodnia" ColumnName="DzienTygodnia" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Plan">
+      <EntityTypeMapping TypeName="PlanLekcjiModel.Plan">
+        <MappingFragment StoreEntitySet="Plan">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Przedmiot">
+      <EntityTypeMapping TypeName="PlanLekcjiModel.Przedmiot">
+        <MappingFragment StoreEntitySet="Przedmiot">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Godzina" ColumnName="Godzina" />
+          <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+          <ScalarProperty Name="DzienId" ColumnName="DzienId" />
+          <ScalarProperty Name="PlanId" ColumnName="PlanId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
