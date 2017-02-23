@@ -1,33 +1,41 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
+using System.Data.Entity.Core.Common.CommandTrees;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using Plan_lekcji.DAL;
+using Plan_lekcji.ViewModels;
 
 namespace Plan_lekcji.Controllers
 {
     public class PlansController : Controller
     {
-        private readonly PlanLekcjiEntities db = new PlanLekcjiEntities();
+        private readonly PlanLekcjiEntities _db = new PlanLekcjiEntities();
 
         // GET: Plans
         public ActionResult Index()
         {
-            var plany = db.Plan.ToList();
+            var plany = _db.Plan.ToList();
             return View(plany);
         }
 
         // GET: Plans/Details/5
         public ActionResult Details(int? id)
-        {
+        { 
             if (id == null)
                 return Create();
-            var przedmioty = db.Przedmiot.
-                Where(x => x.PlanId == id).
-                OrderByDescending(x => x.Godzina).ToList();
+
+            var przedmioty = _db.Przedmiot.
+                Where(x => x.PlanId == id).ToList();
+            var godziny = _db.Godzina.Where(x => x.PlanId == id).OrderBy(x => x.Godzina1).ToList();
+            var dni = _db.Dzien.Select(x => x.DzienTygodnia).ToList();
+
             if (przedmioty.Count > 0)
-                ViewBag.Title = przedmioty[0].Plan.Nazwa;
-            return View(przedmioty);
+                ViewBag.Title = przedmioty[0].Plan.Nazwa;     
+
+            PlanViewModel viewModel = new PlanViewModel(przedmioty, godziny, dni);
+            return View(viewModel);
         }
 
         // GET: Plans/Create
@@ -37,12 +45,13 @@ namespace Plan_lekcji.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Plan plan)
+        public ActionResult Create(PlanViewModel plan)
         {
             if (ModelState.IsValid)
             {
-                db.Plan.Add(plan);
-                db.SaveChanges();
+                _db.Plan.Add(plan);
+
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -54,10 +63,20 @@ namespace Plan_lekcji.Controllers
         {
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            var plan = db.Plan.Find(id);
+            var plan = _db.Plan.Find(id);
             if (plan == null)
                 return HttpNotFound();
-            return View(plan);
+
+            var przedmioty = _db.Przedmiot.Where(p => p.PlanId == id).ToList();
+            var godziny = _db.Godzina.Where(g => g.PlanId == id).OrderBy(g => g.Godzina1).ToList();
+            var dni = _db.Dzien.Select(d => d.DzienTygodnia).ToList();
+
+            PlanViewModel viewModel = new PlanViewModel(przedmioty, godziny, dni);
+            if (przedmioty.Count > 0)
+                viewModel.Nazwa = przedmioty[0].Plan.Nazwa;
+            viewModel.Id = id.Value;  
+
+            return View(viewModel);
         }
 
         // POST: Plans/Edit/5
@@ -65,15 +84,36 @@ namespace Plan_lekcji.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nazwa")] Plan plan)
+        public ActionResult Edit(PlanViewModel planViewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(plan).State = EntityState.Modified;
-                db.SaveChanges();
+                var plan = _db.Plan.SingleOrDefault(p => p.Id == planViewModel.Id);
+                plan.Nazwa = planViewModel.Nazwa;
+                _db.Entry(plan).State = EntityState.Modified;
+
+                var i = 0;
+                var godziny = _db.Godzina.Where(g => g.PlanId == planViewModel.Id);
+                foreach (var godzina in godziny)
+                {
+                    godzina.Godzina1 = planViewModel.Godzina[i].Godzina1;
+                    _db.Entry(godzina).State = EntityState.Modified;
+                    i++;
+                }
+
+                i = 0;
+                var przedmioty = _db.Przedmiot.Where(p => p.PlanId == planViewModel.Id);
+                foreach (var przedmiot in przedmioty)
+                {
+                    przedmiot.Nazwa = planViewModel.Przedmiot[i].Nazwa;
+                    _db.Entry(przedmiot).State = EntityState.Modified;
+                    i++;
+                }
+
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(plan);
+            return View(planViewModel);
         }
 
         // GET: Plans/Delete/5
@@ -81,7 +121,7 @@ namespace Plan_lekcji.Controllers
         {
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            var plan = db.Plan.Find(id);
+            var plan = _db.Plan.Find(id);
             if (plan == null)
                 return HttpNotFound();
             return View(plan);
@@ -93,16 +133,24 @@ namespace Plan_lekcji.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var plan = db.Plan.Find(id);
-            db.Plan.Remove(plan);
-            db.SaveChanges();
+            Plan plan = _db.Plan.Find(id);
+            foreach (Przedmiot przedmiot in plan.Przedmiot)
+            {
+                _db.Przedmiot.Remove(przedmiot);
+            }
+            foreach (Godzina godzina in plan.Godzina)
+            {
+                _db.Godzina.Remove(godzina);
+            }
+            _db.Plan.Remove(plan);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
-                db.Dispose();
+                _db.Dispose();
             base.Dispose(disposing);
         }
     }

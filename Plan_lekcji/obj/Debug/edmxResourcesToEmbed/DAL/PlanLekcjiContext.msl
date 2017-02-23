@@ -9,6 +9,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Godzina">
+      <EntityTypeMapping TypeName="PlanLekcjiModel.Godzina">
+        <MappingFragment StoreEntitySet="Godzina">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Godzina1" ColumnName="Godzina" />
+          <ScalarProperty Name="PlanId" ColumnName="PlanId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Plan">
       <EntityTypeMapping TypeName="PlanLekcjiModel.Plan">
         <MappingFragment StoreEntitySet="Plan">
@@ -21,8 +30,8 @@
       <EntityTypeMapping TypeName="PlanLekcjiModel.Przedmiot">
         <MappingFragment StoreEntitySet="Przedmiot">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Godzina" ColumnName="Godzina" />
           <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+          <ScalarProperty Name="GodzinaId" ColumnName="GodzinaId" />
           <ScalarProperty Name="DzienId" ColumnName="DzienId" />
           <ScalarProperty Name="PlanId" ColumnName="PlanId" />
         </MappingFragment>

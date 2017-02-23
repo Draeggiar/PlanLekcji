@@ -1,12 +1,53 @@
-﻿@model IEnumerable<Plan_lekcji.DAL.Przedmiot>
+﻿@using Plan_lekcji.DAL
+@model Plan_lekcji.ViewModels.PlanViewModel
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section Style
+{
+    <link href="~/Content/Style/PlanLekcji.css" rel="stylesheet" type="text/css" />
+}
+
 <h2>@ViewBag.Title</h2>
 
-@Html.Partial("_Plan", Model)
+<table class="planTabela">
+    <tr>
+        @{
+            <th>Godzina</th>
+            foreach (string dzien in Model.Dzien)
+            {
+                <th>@dzien</th>
+            }
+        }
+    </tr>
+    @{
+        foreach (Godzina godzina in Model.Godzina)
+        {
+            <tr>
+                <td>@godzina.Godzina1</td>
+                @{
+                    foreach (string dzien in Model.Dzien)
+                    {
+                        <td>
+                            @{
+                                foreach (Przedmiot przedmiot in Model.Przedmiot.Where(p => p.Godzina.Id == godzina.Id))
+                                {
+                                    if (string.Equals(przedmiot.Dzien.DzienTygodnia, dzien))
+                                    {
+                                        @przedmiot.Nazwa
+                                    }
+                                }
+                            }
+                        </td>
+                    }
+                }
+            </tr>
+        }
+    }
+</table>
+
 <div>
     <a type="button" class="btn btn-info" href=@Url.Action("Index")>Powrót</a>
 </div>

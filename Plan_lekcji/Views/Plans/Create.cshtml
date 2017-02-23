@@ -1,5 +1,4 @@
-﻿@using Plan_lekcji.DAL
-@model Plan_lekcji.DAL.Plan
+﻿@model Plan_lekcji.ViewModels.PlanViewModel
 
 @{
     ViewBag.Title = "Stwórz nowy plan";
@@ -23,35 +22,10 @@
             <th>Sobota</th>
             <th>Niedziela</th>
         </tr>
-        @using (Html.BeginCollectionItem("Przedmiot"))
-        {
-            <tr>
-                <td>
-                    @Html.TextAreaFor(plan => plan.Przedmiot.Select(p => p.Nazwa), new {id = "r1t1", onkeydown = "resizeTextarea('r1t1')"})
-                </td>
-                <td>
-                    @Html.TextAreaFor(plan => plan.Przedmiot., new {id = "r1t2", onkeydown = "resizeTextarea('r1t2')"})
-                </td>
-                <td>
-                    @Html.TextAreaFor(plan => new Przedmiot().Nazwa), new { id = "r1t3", onkeydown = "resizeTextarea('r1t3')" })
-                </td>
-                <td>
-                    @Html.TextAreaFor(plan => new Przedmiot().Nazwa), new { id = "r1t4", onkeydown = "resizeTextarea('r1t4')" })
-                </td>
-                <td>
-                    @Html.TextAreaFor(plan => new Przedmiot().Nazwa), new { id = "r1t5", onkeydown = "resizeTextarea('r1t5')" })
-                </td>
-                <td>
-                    @Html.TextAreaFor(plan => new Przedmiot().Nazwa), new { id = "r1t6", onkeydown = "resizeTextarea('r1t6')" })
-                </td>
-                <td>
-                    @Html.TextAreaFor(plan => new Przedmiot().Nazwa), new { id = "r1t7", onkeydown = "resizeTextarea('r1t7')" })
-                </td>
-                <td>
-                    @Html.TextAreaFor(plan => new Przedmiot().Nazwa), new { id = "r1t8", onkeydown = "resizeTextarea('r1t8')" })
-                </td>
-            </tr>
-        }
+        <tr>            
+            <td>@Html.TextAreaFor(godzina => Model.Godzina[0].Godzina1)</td>
+            <td>@Html.TextAreaFor(przedmiot => Model.Przedmiot[0].Nazwa)</td>
+        </tr>
     </table>
     <p>
         <a type="button" class="btn btn-info" href=@Url.Action("Index")>Powrót</a>

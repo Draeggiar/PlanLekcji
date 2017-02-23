@@ -125,6 +125,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\Style\PlanLekcji.css" />
     <Content Include="DAL\PlanLekcjiContext.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>PlanLekcjiContext.edmx</DependentUpon>
@@ -137,13 +138,6 @@
     </Content>
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <EntityDeploy Include="DAL\PlanLekcjiContext.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>PlanLekcjiContext.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="DAL\PlanLekcjiContext.edmx.diagram">
-      <DependentUpon>PlanLekcjiContext.edmx</DependentUpon>
-    </Content>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -152,6 +146,13 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <EntityDeploy Include="DAL\PlanLekcjiContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>PlanLekcjiContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="DAL\PlanLekcjiContext.edmx.diagram">
+      <DependentUpon>PlanLekcjiContext.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -169,6 +170,9 @@
     <Compile Include="DAL\Dzien.cs">
       <DependentUpon>PlanLekcjiContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Godzina.cs">
+      <DependentUpon>PlanLekcjiContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Plan.cs">
       <DependentUpon>PlanLekcjiContext.tt</DependentUpon>
     </Compile>
@@ -176,6 +180,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PlanLekcjiContext.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\PlanLekcjiContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PlanLekcjiContext.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\PlanLekcjiContext.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -190,6 +199,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\PlanViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -198,13 +208,11 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\Shared\_Plan.cshtml" />
     <Content Include="Views\Plans\Create.cshtml" />
     <Content Include="Views\Plans\Delete.cshtml" />
     <Content Include="Views\Plans\Details.cshtml" />
     <Content Include="Views\Plans\Edit.cshtml" />
     <Content Include="Views\Plans\Index.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

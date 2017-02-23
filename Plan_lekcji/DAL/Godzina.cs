@@ -12,16 +12,20 @@ namespace Plan_lekcji.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Przedmiot
+    public partial class Godzina
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Godzina()
+        {
+            this.Przedmiot = new HashSet<Przedmiot>();
+        }
+    
         public int Id { get; set; }
-        public string Nazwa { get; set; }
-        public int GodzinaId { get; set; }
-        public int DzienId { get; set; }
+        public string Godzina1 { get; set; }
         public int PlanId { get; set; }
     
-        public virtual Dzien Dzien { get; set; }
-        public virtual Godzina Godzina { get; set; }
         public virtual Plan Plan { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Przedmiot> Przedmiot { get; set; }
     }
 }

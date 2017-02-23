@@ -7,8 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-
 namespace Plan_lekcji.DAL
 {
     using System;
@@ -19,13 +17,15 @@ namespace Plan_lekcji.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Plan()
         {
+            this.Godzina = new HashSet<Godzina>();
             this.Przedmiot = new HashSet<Przedmiot>();
         }
     
         public int Id { get; set; }
-        [Required]
         public string Nazwa { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Godzina> Godzina { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Przedmiot> Przedmiot { get; set; }
     }

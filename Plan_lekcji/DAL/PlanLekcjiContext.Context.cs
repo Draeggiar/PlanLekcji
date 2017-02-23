@@ -25,8 +25,9 @@ namespace Plan_lekcji.DAL
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<Dzien> Dzien { get; set; }
-        public DbSet<Plan> Plan { get; set; }
-        public DbSet<Przedmiot> Przedmiot { get; set; }
+        public virtual DbSet<Dzien> Dzien { get; set; }
+        public virtual DbSet<Godzina> Godzina { get; set; }
+        public virtual DbSet<Plan> Plan { get; set; }
+        public virtual DbSet<Przedmiot> Przedmiot { get; set; }
     }
 }

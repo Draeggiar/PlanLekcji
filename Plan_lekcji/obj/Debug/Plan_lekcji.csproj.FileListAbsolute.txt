@@ -42,3 +42,4 @@ D:\Windows\Programowanie\C#\programy\Plan_lekcji\Plan_lekcji\bin\System.Web.Help
 D:\Windows\Programowanie\C#\programy\Plan_lekcji\Plan_lekcji\bin\System.Web.Mvc.xml
 D:\Windows\Programowanie\C#\programy\Plan_lekcji\Plan_lekcji\obj\Debug\Plan_lekcji.dll
 D:\Windows\Programowanie\C#\programy\Plan_lekcji\Plan_lekcji\obj\Debug\Plan_lekcji.pdb
+D:\Windows\Programowanie\C#\programy\Plan_lekcji\Plan_lekcji\obj\Debug\Plan_lekcji.csprojResolveAssemblyReference.cache

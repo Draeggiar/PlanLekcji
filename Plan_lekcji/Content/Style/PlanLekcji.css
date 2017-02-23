@@ -1,0 +1,18 @@
+﻿.planTabela{  
+    margin: 30px;
+    padding: 5px;
+    width: 100%;
+}
+
+.planTabela tr, td, th {
+    border: 1px solid black;
+    text-align: center;
+    height: 30px;
+}
+
+.planTabela  textarea {
+        overflow: hidden;
+        resize: none;
+    display: table-cell;
+    width: 100%;
+}

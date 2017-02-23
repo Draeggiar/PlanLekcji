@@ -4,11 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="21b0c2b8ae5b4cfab0a9aadc7e134aaa" Name="Diagram1">
-        <EntityTypeShape EntityType="PlanLekcjiModel.Dzien" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="PlanLekcjiModel.Plan" Width="1.5" PointX="5.5" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="PlanLekcjiModel.Przedmiot" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+      <Diagram DiagramId="af750ff3b9e9440fbe316c18bb28d6ba" Name="Diagram1">
+        <EntityTypeShape EntityType="PlanLekcjiModel.Dzien" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PlanLekcjiModel.Godzina" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PlanLekcjiModel.Plan" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PlanLekcjiModel.Przedmiot" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="PlanLekcjiModel.FK_Przedmiot_Dzien" ManuallyRouted="false" />
+        <AssociationConnector Association="PlanLekcjiModel.FK_Godzina_Plan" ManuallyRouted="false" />
+        <AssociationConnector Association="PlanLekcjiModel.FK_Przedmiot_Godzina" ManuallyRouted="false" />
         <AssociationConnector Association="PlanLekcjiModel.FK_Przedmiot_Plan" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>

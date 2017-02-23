@@ -8,12 +8,23 @@
     <Property Name="DzienTygodnia" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="Przedmiot" Relationship="Self.FK_Przedmiot_Dzien" FromRole="Dzien" ToRole="Przedmiot" />
   </EntityType>
+  <EntityType Name="Godzina">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Godzina1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PlanId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Plan" Relationship="Self.FK_Godzina_Plan" FromRole="Godzina" ToRole="Plan" />
+    <NavigationProperty Name="Przedmiot" Relationship="Self.FK_Przedmiot_Godzina" FromRole="Godzina" ToRole="Przedmiot" />
+  </EntityType>
   <EntityType Name="Plan">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Nazwa" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Godzina" Relationship="Self.FK_Godzina_Plan" FromRole="Plan" ToRole="Godzina" />
     <NavigationProperty Name="Przedmiot" Relationship="Self.FK_Przedmiot_Plan" FromRole="Plan" ToRole="Przedmiot" />
   </EntityType>
   <EntityType Name="Przedmiot">
@@ -21,11 +32,12 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Godzina" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Nazwa" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="GodzinaId" Type="Int32" Nullable="false" />
     <Property Name="DzienId" Type="Int32" Nullable="false" />
     <Property Name="PlanId" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Dzien" Relationship="Self.FK_Przedmiot_Dzien" FromRole="Przedmiot" ToRole="Dzien" />
+    <NavigationProperty Name="Godzina" Relationship="Self.FK_Przedmiot_Godzina" FromRole="Przedmiot" ToRole="Godzina" />
     <NavigationProperty Name="Plan" Relationship="Self.FK_Przedmiot_Plan" FromRole="Przedmiot" ToRole="Plan" />
   </EntityType>
   <Association Name="FK_Przedmiot_Dzien">
@@ -39,6 +51,32 @@
       </Principal>
       <Dependent Role="Przedmiot">
         <PropertyRef Name="DzienId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Godzina_Plan">
+    <End Role="Plan" Type="Self.Plan" Multiplicity="1" />
+    <End Role="Godzina" Type="Self.Godzina" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Plan">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Godzina">
+        <PropertyRef Name="PlanId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Przedmiot_Godzina">
+    <End Role="Godzina" Type="Self.Godzina" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Przedmiot" Type="Self.Przedmiot" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Godzina">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Przedmiot">
+        <PropertyRef Name="GodzinaId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -58,10 +96,19 @@
   </Association>
   <EntityContainer Name="PlanLekcjiEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Dzien" EntityType="Self.Dzien" />
+    <EntitySet Name="Godzina" EntityType="Self.Godzina" />
     <EntitySet Name="Plan" EntityType="Self.Plan" />
     <EntitySet Name="Przedmiot" EntityType="Self.Przedmiot" />
     <AssociationSet Name="FK_Przedmiot_Dzien" Association="Self.FK_Przedmiot_Dzien">
       <End Role="Dzien" EntitySet="Dzien" />
+      <End Role="Przedmiot" EntitySet="Przedmiot" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Godzina_Plan" Association="Self.FK_Godzina_Plan">
+      <End Role="Plan" EntitySet="Plan" />
+      <End Role="Godzina" EntitySet="Godzina" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Przedmiot_Godzina" Association="Self.FK_Przedmiot_Godzina">
+      <End Role="Godzina" EntitySet="Godzina" />
       <End Role="Przedmiot" EntitySet="Przedmiot" />
     </AssociationSet>
     <AssociationSet Name="FK_Przedmiot_Plan" Association="Self.FK_Przedmiot_Plan">

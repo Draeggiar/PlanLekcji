@@ -7,6 +7,14 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="DzienTygodnia" Type="nvarchar" MaxLength="200" Nullable="false" />
   </EntityType>
+  <EntityType Name="Godzina">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Godzina" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="PlanId" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Plan">
     <Key>
       <PropertyRef Name="Id" />
@@ -19,11 +27,23 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Godzina" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="Nazwa" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="GodzinaId" Type="int" Nullable="false" />
     <Property Name="DzienId" Type="int" Nullable="false" />
     <Property Name="PlanId" Type="int" Nullable="false" />
   </EntityType>
+  <Association Name="FK_Godzina_Plan">
+    <End Role="Plan" Type="Self.Plan" Multiplicity="1" />
+    <End Role="Godzina" Type="Self.Godzina" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Plan">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Godzina">
+        <PropertyRef Name="PlanId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Przedmiot_Dzien">
     <End Role="Dzien" Type="Self.Dzien" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -35,6 +55,20 @@
       </Principal>
       <Dependent Role="Przedmiot">
         <PropertyRef Name="DzienId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Przedmiot_Godzina">
+    <End Role="Godzina" Type="Self.Godzina" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Przedmiot" Type="Self.Przedmiot" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Godzina">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Przedmiot">
+        <PropertyRef Name="GodzinaId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -54,10 +88,19 @@
   </Association>
   <EntityContainer Name="PlanLekcjiModelStoreContainer">
     <EntitySet Name="Dzien" EntityType="Self.Dzien" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Godzina" EntityType="Self.Godzina" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Plan" EntityType="Self.Plan" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Przedmiot" EntityType="Self.Przedmiot" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Godzina_Plan" Association="Self.FK_Godzina_Plan">
+      <End Role="Plan" EntitySet="Plan" />
+      <End Role="Godzina" EntitySet="Godzina" />
+    </AssociationSet>
     <AssociationSet Name="FK_Przedmiot_Dzien" Association="Self.FK_Przedmiot_Dzien">
       <End Role="Dzien" EntitySet="Dzien" />
+      <End Role="Przedmiot" EntitySet="Przedmiot" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Przedmiot_Godzina" Association="Self.FK_Przedmiot_Godzina">
+      <End Role="Godzina" EntitySet="Godzina" />
       <End Role="Przedmiot" EntitySet="Przedmiot" />
     </AssociationSet>
     <AssociationSet Name="FK_Przedmiot_Plan" Association="Self.FK_Przedmiot_Plan">
